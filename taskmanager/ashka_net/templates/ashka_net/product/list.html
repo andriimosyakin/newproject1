@@ -1,0 +1,38 @@
+{% extends "ashka_net/base.html" %}
+{% load static %}
+{% block title %}
+{% if category %}{{ category.name }}{% else %}Товары{% endif %}
+{% endblock %}
+{% block content %}
+
+<h1 style="display: flex;
+    justify-content: center;">{% if category %}{{ category.name }}{% else %}Товар{% endif %}</h1>
+{% for product in products %}
+
+<div class="item" style="border: 3px solid rgb(141 165 138); border-radius:30px 100px 30px 100px; width:628.3px; height:350px; float:left;">
+    <div style="padding:30px 0px 30px 30px;">
+        <a href="{{ product.get_absolute_url }}">
+            <img src="{% if product.image %}{{ product.image.url }}{%else %}{% static 'img/no_image.png' %}{% endif %}"
+                 style="width:255px; height:255px; float:left;">
+        </a>
+
+        <div style="font-size:20px; float:right; width:300px; padding-left:20px;">
+            <a href="{{ product.get_absolute_url }}" style="width:50px;">{{ product.name }}</a>
+            <br>
+            {{ product.description|truncatewords_html:15 }}
+
+                <h2 style="">{{ product.price }} грн
+                <button class="button" style="border-radius: 10px; padding:5px;">В кошик</button></h2>
+            {%  if product.available == True %}
+                <h5 style="color:chartreuse;">Є в наявності</h5>
+            {% else %}
+                <h5 style="color:red;">В наявності не має</h5>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+{% endfor %}
+
+{% endblock %}
